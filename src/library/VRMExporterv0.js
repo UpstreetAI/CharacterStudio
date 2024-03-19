@@ -1061,7 +1061,7 @@ function imageBitmap2png(image) {
   canvas.getContext("2d").drawImage(image, 0, 0)
 
   // Convert canvas data to PNG format
-  const pngUrl = canvas.toDataURL("image/png")
+  const pngUrl = canvas.toDataURL("image/webp")
 
   // Extract base64-encoded data
   const data = atob(pngUrl.split(",")[1])
