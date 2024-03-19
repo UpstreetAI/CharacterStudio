@@ -65,27 +65,45 @@ function convertHumanoidToVRM0(humanoid) {
   }
 }
 
-function getVRM0BlendshapeName(curName) {
+function getVRM0BlendshapeName(curName, isPresetName) {
+  let result = ""
   switch (curName) {
     case "happy":
-      return "joy"
+      result = "joy"
+      break
     case "sad":
-      return "sorrow"
+      result = "sorrow"
+      break
     case "relaxed":
-      return "fun"
+      result = "fun"
+      break
     case "aa":
-      return "a"
+      result = "a"
+      break
     case "ih":
-      return "i"
+      result = "i"
+      break
     case "ou":
-      return "u"
+      result = "u"
+      break
     case "ee":
-      return "e"
+      result = "e"
+      break
     case "oh":
-      return "o"
+      result = "o"
+      break
+    case "blinkLeft":
+      return isPresetName ? "blink_l" : "Blink_L"
+    case "blinkRight":
+      return isPresetName ? "blink_r" : "Blink_R"
     default:
-      return curName
+      result = curName
+      break
   }
+  if (!isPresetName) {
+    result = result.charAt(0).toUpperCase() + result.slice(1)
+  }
+  return result
 }
 
 function getVRM0BoneName(name) {
@@ -335,10 +353,11 @@ export default class VRMExporterv0 {
               prop !== "surprised"
             ) {
               blendShapeGroups.push({
-                name: prop,
-                presetName: getVRM0BlendshapeName(prop),
+                name: getVRM0BlendshapeName(prop, false),
+                presetName: getVRM0BlendshapeName(prop, true),
                 binds: morphTargetBinds,
                 isBinary: expression.isBinary,
+                materialValue: [],
               })
               isPreset = true
               break
