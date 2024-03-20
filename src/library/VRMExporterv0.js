@@ -712,14 +712,10 @@ export default class VRMExporterv0 {
     uniqueMaterials.forEach((mat) => {
       if (mat.userData.vrmMaterial) {
         materialProperties.push(
-          materialProperties.push(
-            Object.assign({}, getVRMProperties(mat.userData.vrmMaterial)),
-          ),
+          Object.assign({}, getVRMProperties(mat.userData.vrmMaterial)),
         )
       } else {
-        materialProperties.push(
-          materialProperties.push(Object.assign({}, stdMaterialProperties)),
-        )
+        materialProperties.push(Object.assign({}, stdMaterialProperties))
       }
     })
     //const outputVrmMeta = ToOutputVRMMeta(vrmMeta, icon, outputImages);
@@ -959,7 +955,7 @@ export default class VRMExporterv0 {
     const outputScenes = toOutputScenes(avatar, outputNodes)
 
     fillVRMMissingMetaData(outputVrmMeta)
-
+    console.log(materialProperties)
     const outputData = {
       accessors: outputAccessors,
       asset: exporterInfo,
