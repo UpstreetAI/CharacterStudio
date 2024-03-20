@@ -955,7 +955,6 @@ export default class VRMExporterv0 {
     const outputScenes = toOutputScenes(avatar, outputNodes)
 
     fillVRMMissingMetaData(outputVrmMeta)
-    console.log(materialProperties)
     const outputData = {
       accessors: outputAccessors,
       asset: exporterInfo,
