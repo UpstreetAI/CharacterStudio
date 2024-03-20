@@ -337,46 +337,46 @@ export default class VRMExporterv0 {
       console.warn(
         "taking only mesh 0 for morph targets now, take the correct mesh",
       )
-      if (index === 0) {
-        for (const prop in vrm.expressionManager.expressionMap) {
-          const expression = vrm.expressionManager.expressionMap[prop]
-          const morphTargetBinds = expression._binds.map((obj) => ({
-            mesh: 0,
-            index: obj.index,
-            weight: obj.weight * 100,
-          }))
-          //only add those that have connected binds
-          if (morphTargetBinds.length > 0) {
-            let isPreset = false
-            for (const presetName in VRMExpressionPresetName) {
-              if (
-                prop === VRMExpressionPresetName[presetName] &&
-                prop !== "surprised"
-              ) {
-                blendShapeGroups.push({
-                  name: getVRM0BlendshapeName(prop, false),
-                  presetName: getVRM0BlendshapeName(prop, true),
-                  binds: morphTargetBinds,
-                  isBinary: expression.isBinary,
-                  materialValue: [],
-                })
-                isPreset = true
-                break
-              }
-            }
-            if (isPreset === false) {
+     
+      for (const prop in vrm.expressionManager.expressionMap) {
+        const expression = vrm.expressionManager.expressionMap[prop]
+        const morphTargetBinds = expression._binds.map((obj) => ({
+          mesh: 0,
+          index: obj.index,
+          weight: obj.weight * 100,
+        }))
+        //only add those that have connected binds
+        if (morphTargetBinds.length > 0) {
+          let isPreset = false
+          for (const presetName in VRMExpressionPresetName) {
+            if (
+              prop === VRMExpressionPresetName[presetName] &&
+              prop !== "surprised"
+            ) {
               blendShapeGroups.push({
-                name: prop,
-                presetName: "unknown",
+                name: getVRM0BlendshapeName(prop, false),
+                presetName: getVRM0BlendshapeName(prop, true),
                 binds: morphTargetBinds,
                 isBinary: expression.isBinary,
+                materialValue: [],
               })
+              isPreset = true
+              break
             }
           }
-  
-          // to do, material target binds, and texture transform binds
+          if (isPreset === false) {
+            blendShapeGroups.push({
+              name: prop,
+              presetName: "unknown",
+              binds: morphTargetBinds,
+              isBinary: expression.isBinary,
+            })
+          }
         }
+
+        // to do, material target binds, and texture transform binds
       }
+      
       
 
       const getMorphData = (
@@ -713,9 +713,9 @@ export default class VRMExporterv0 {
       if (mat.userData.vrmMaterial) {
         materialProperties.push(
           Object.assign({}, getVRMProperties(mat.userData.vrmMaterial)),
-        )
+        );
       } else {
-        materialProperties.push(Object.assign({}, stdMaterialProperties))
+        materialProperties.push(Object.assign({}, stdMaterialProperties));
       }
     })
     //const outputVrmMeta = ToOutputVRMMeta(vrmMeta, icon, outputImages);
@@ -955,6 +955,7 @@ export default class VRMExporterv0 {
     const outputScenes = toOutputScenes(avatar, outputNodes)
 
     fillVRMMissingMetaData(outputVrmMeta)
+
     const outputData = {
       accessors: outputAccessors,
       asset: exporterInfo,
